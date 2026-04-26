@@ -32,9 +32,5 @@ def appwrite_request(method: str, path: str, payload: dict[str, Any] | None = No
 
 
 def appwrite_health() -> dict[str, Any]:
-    # Public health endpoint to verify endpoint reachability.
-    url = f"{settings.appwrite_endpoint}/health"
-    with httpx.Client(timeout=10.0) as client:
-        response = client.get(url)
-    response.raise_for_status()
-    return response.json()
+    # Verify authenticated access by reading configured database metadata.
+    return appwrite_request("GET", f"/databases/{settings.appwrite_database_id}")
