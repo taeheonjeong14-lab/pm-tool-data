@@ -1,0 +1,34 @@
+{
+  "project_create": {
+    "name": "Tower A Renovation",
+    "code": "PRJ-2026-001",
+    "start_date": "2026-01-01",
+    "end_date": "2026-12-31",
+    "manager_name": "Lee PM",
+    "status": "ongoing"
+  },
+  "matching_review_decision": {
+    "evidence_match_id": 7,
+    "action_type": "approve",
+    "actor_name": "reviewer@company.com",
+    "note": "verified with receipt image"
+  },
+  "matching_manual_link": {
+    "evidence_id": 8,
+    "bank_transaction_id": 31,
+    "actor_name": "reviewer@company.com",
+    "note": "manual linking by PM"
+  },
+  "hometax_record_example": [
+    {
+      "vendor_name": "ABC STEEL",
+      "issue_date": "2026-04-01",
+      "amount_supply": 100000,
+      "amount_vat": 10000,
+      "amount_total": 110000,
+      "payment_method": "transfer"
+    }
+  ],
+  "bank_csv_header": "transfer_date,vendor_name,description,amount,account_number_masked",
+  "bank_csv_example_row": "2026-04-03,ABC STEEL,steel payment,110000,1234-****-****"
+}
