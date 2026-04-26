@@ -1,7 +1,8 @@
-from datetime import date
-from typing import Optional
+from datetime import date, datetime
+from enum import Enum
+from typing import Any, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 
 from .models import (
     EvidenceStatus,
@@ -74,3 +75,84 @@ class MatchResponse(BaseModel):
     match_status: MatchStatus
     score: float
     reason: Optional[str] = None
+
+
+class StrictModel(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+
+class PnlProjectStatus(str, Enum):
+    ACTIVE = "active"
+    CLOSED = "closed"
+
+
+class Currency(str, Enum):
+    KRW = "KRW"
+
+
+class ErrorCode(str, Enum):
+    VALIDATION_ERROR = "VALIDATION_ERROR"
+    NOT_FOUND = "NOT_FOUND"
+    CONFLICT = "CONFLICT"
+    INTERNAL_ERROR = "INTERNAL_ERROR"
+
+
+class PnlValues(StrictModel):
+    contractAmount: int = Field(ge=0)
+    changeOrderAmount: int = Field(ge=0)
+    otherRevenue: int = Field(ge=0)
+    materialCost: int = Field(ge=0)
+    laborCost: int = Field(ge=0)
+    subcontractCost: int = Field(ge=0)
+    equipmentCost: int = Field(ge=0)
+    expenseCost: int = Field(ge=0)
+    siteOverhead: int = Field(ge=0)
+    hqAllocation: int = Field(ge=0)
+    contingency: int = Field(ge=0)
+    otherCost: int = Field(ge=0)
+
+
+class PnlSummary(StrictModel):
+    totalRevenue: int
+    totalCost: int
+    profit: int
+    profitMargin: float
+
+
+class ProjectListItem(StrictModel):
+    id: str
+    name: str
+    code: str
+    status: PnlProjectStatus
+    pnlSummary: PnlSummary
+    updatedAt: datetime
+
+
+class ProjectListResponse(StrictModel):
+    items: list[ProjectListItem]
+    page: int = Field(ge=1)
+    limit: int = Field(ge=1, le=100)
+    total: int = Field(ge=0)
+
+
+class PnlDetailResponse(StrictModel):
+    projectId: str
+    currency: Currency = Currency.KRW
+    values: PnlValues
+    summary: PnlSummary
+    updatedAt: datetime
+
+
+class PnlSaveRequest(StrictModel):
+    values: PnlValues
+    clientUpdatedAt: datetime
+
+
+class ErrorBody(StrictModel):
+    code: ErrorCode
+    message: str
+    details: dict[str, Any] = Field(default_factory=dict)
+
+
+class ErrorEnvelope(StrictModel):
+    error: ErrorBody

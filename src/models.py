@@ -58,6 +58,25 @@ class Project(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
 
+class ProjectPnlSnapshot(SQLModel, table=True):
+    __tablename__ = "project_pnl_snapshots"
+
+    project_id: int = Field(primary_key=True, foreign_key="projects.id")
+    contract_amount: int = Field(default=0)
+    change_order_amount: int = Field(default=0)
+    other_revenue: int = Field(default=0)
+    material_cost: int = Field(default=0)
+    labor_cost: int = Field(default=0)
+    subcontract_cost: int = Field(default=0)
+    equipment_cost: int = Field(default=0)
+    expense_cost: int = Field(default=0)
+    site_overhead: int = Field(default=0)
+    hq_allocation: int = Field(default=0)
+    contingency: int = Field(default=0)
+    other_cost: int = Field(default=0)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+
 class Vendor(SQLModel, table=True):
     __tablename__ = "vendors"
 
