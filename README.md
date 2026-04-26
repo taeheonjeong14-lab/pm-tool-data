@@ -20,6 +20,22 @@ uvicorn src.main:app --reload
 
 API 문서: `http://127.0.0.1:8000/docs`
 
+## Appwrite 설정
+
+1. `.env.example`를 참고해 루트 `.env`를 구성
+2. `APPWRITE_ENDPOINT`, `APPWRITE_PROJECT_ID`, `APPWRITE_API_KEY` 설정
+3. 필요 시 `APPWRITE_DATABASE_ID` 지정 (기본: `pm_tool`)
+
+Appwrite 초기화:
+
+```bash
+python scripts/init_appwrite.py
+```
+
+연결 상태 확인:
+
+- `GET /health/appwrite`
+
 ## 프로젝트 관리
 
 ### 프로젝트 생성 `/projects`

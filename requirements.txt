@@ -3,3 +3,5 @@ uvicorn
 sqlmodel
 python-multipart
 pydantic
+python-dotenv
+httpx
